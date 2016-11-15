@@ -1,0 +1,19 @@
+{
+  "name": "workshop-tooling",
+  "version": "0.1.0",
+  "description": "Workshop mettant en place les principaux outils de tooling Web étape par étape",
+  "main": "index.js",
+  "scripts": {
+    "serve": "npm run watch & npm run browsersync",
+    "browsersync": "browser-sync start --config 'bs-config.js'",
+    "webpack": "webpack --config 'webpack.config.js'",
+    "watch": "webpack --watch --config 'webpack.config.js'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.17.6",
+    "webpack": "^2.1.0-beta.26"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "workshop-tooling",
+  "version": "0.1.0",
+  "description": "Workshop mettant en place les principaux outils de tooling Web étape par étape",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
