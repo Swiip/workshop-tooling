@@ -212,7 +212,8 @@ export class AppModule {}
 ```typescript
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
-platformBrowserDynamic().bootstrapModule(AppModule);```
+platformBrowserDynamic().bootstrapModule(AppModule);
+```
 
 - Ajouter les options TypeScript de compilation activant les décorateurs, nécessaire pour Angular 2 : `"emitDecoratorMetadata": true, "experimentalDecorators": true`
 
