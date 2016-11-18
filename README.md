@@ -130,9 +130,9 @@ console.log(hello);
 
 - Changer les fichiers `index.js` et `hello.js` en fichiers TypeScript (`.ts`). On peut par exemple typer la variable hello à string pour utiliser une syntaxe valide uniquement avec TypeScript.
 
-- Il est alors possible de tester le compilateur même si la cible est de passer par Webpack. En utilisant la commande `tsc src/index`. Attention à supprimer les fichier js alors créé.
+- Il est alors possible de tester le compilateur même si la cible est de passer par Webpack. En utilisant la commande `tsc src/index`. Attention à supprimer les fichier js alors créé, la cible n'est pas d'avoir les fichiers compilés à côté des fichiers sources.
 
-- Nous allons maintenant brancher TypeScript sous forme de "loader" Webpack. Pour cela, il faut commencer par installer le package `npm install --save-dev ts-loader`
+- Nous allons maintenant brancher TypeScript sous forme de "loader" Webpack. Pour cela, il faut commencer par installer le package `npm install --save-dev ts-loader`.
 
 - Pour la configuration Webpack, il faut commencer par apprendre à Webpack que les fichiers `.ts` peuvent être considérés comme des modules : `resolve: ['.js', '.ts']`. Il faut ensuite configurer le loader TypeScript. Comme dans la plupart des cas, on précise de l'utiliser pour les fichiers avec une extension `.ts` mais on exclue le répertoire `node_modules` dans lequel on ne veut jamais que le compilateur s'active
 
@@ -150,11 +150,9 @@ module: {
 
 > Documentation https://angular.io/
 
-- Installation des dépendances d'Angular. Même en version minimale, il y a pas mal de package à installer
+- Installation des dépendances d'Angular. Même en version minimale, il y a pas mal de package à installer. `npm install --save @angular/common @angular/compiler @angular/core @angular/platform-browser @angular/platform-browser-dynamic core-js rxjs zone.js`
 
-  - npm install --save @angular/common @angular/compiler @angular/core @angular/platform-browser @angular/platform-browser-dynamic core-js rxjs zone.js
-
-- Gestion des polyfill pour Angular 2. Angular 2 a été développé sur un ensemble de normes qui ne sont pas toutes implémentés dans les navigateurs. On ajoute ce qu'on appel des polyfill pour détecter et enrichir au besoin l'API du navigateur avant de lancer Angular. Concrètement, cela consiste à charger des librairies avant de commancer le code. En haut du fichier index.ts, ajouter les imports suivant
+- Gestion des polyfill pour Angular 2. Angular 2 a été développé sur un ensemble de normes qui ne sont pas toutes implémentés dans les navigateurs. On ajoute ce qu'on appel des polyfill pour détecter et enrichir au besoin l'API du navigateur avant de lancer Angular. Concrètement, cela consiste à charger des librairies avant de commencer le code. En haut du fichier index.ts, ajouter les imports suivant.
 
 ```typescript
 import 'core-js/client/shim';
@@ -164,7 +162,7 @@ import '@angular/common';
 import 'rxjs';
 ```
 
-- Création du composant de base. Toujours dans `index.ts`, créer un composant Angular 2 qui affiche la valeur d'hello
+- Création du composant de base. Toujours dans `index.ts`, créer un composant Angular 2 qui affiche la valeur d'`hello`.
 
 ```typescript
 import {Component} from '@angular/core';
@@ -204,7 +202,7 @@ platformBrowserDynamic().bootstrapModule(AppModule);
 
 - Ajouter les options TypeScript de compilation activant les décorateurs, nécessaire pour Angular 2 : `"emitDecoratorMetadata": true, "experimentalDecorators": true`
 
-- Enfin, il faut ajouter du typage pour TypeScript `npm install --save-dev @types/core-js @types/chai`. (les types de chai, une librairie de tests, ne devraient pas être nécessaires mais malheureusement avec la dernière version de rxjs)
+- Enfin, il faut ajouter du typage pour TypeScript `npm install --save-dev @types/core-js @types/chai`. (les types de chai, une librairie de tests, ne devraient pas être nécessaires mais malheureusement si, avec la dernière version de rxjs).
 
 - Dans `src/index.html`, remplacer le titre statique par l'appel du composant `<app>Loading...</app>`
 
@@ -216,25 +214,21 @@ platformBrowserDynamic().bootstrapModule(AppModule);
 
 Bonus, activer le linter dans l'application. Il existe un loader Webpack qui peut être utile dans un processus d'intégration continue. Mais le plus utile, c'est dans un plugin de l'IDE. Ci dessous, les liens vers les plugins Atom et Visual Studio Code.
 
-- npm install --save-dev tslint
+- Installer le package. `npm install --save-dev tslint`, `npm install --global tslint`.
 
-- npm install --global tslint
+- Initialiser le fichier de configuration `tslint --init`.
 
-- tslint --init
-
-- https://atom.io/packages/linter-tslint
-
-- https://marketplace.visualstudio.com/items?itemName=eg2.tslint
+- Installer le plugin pour votre éditeur de code. Atom : `https://atom.io/packages/linter-tslint`, Visual Studio Code: `https://marketplace.visualstudio.com/items?itemName=eg2.tslint`.
 
 ## 8/ Karma
 
-- npm install --save-dev karma karma-chrome-launcher karma-jasmine karma-webpack jasmine-core
+Pour avoir une infrastructure de test, il faut installer Karma qui va piloter un navigateur pour jouer nos tests. Créer un scripts d'initialisation des tests Angular 2 et enfin créer un premier test.
 
-- npm install --global karma-cli
+- Installer les dépendances `npm install --save-dev karma karma-chrome-launcher karma-jasmine karma-webpack jasmine-core`, `npm install --global karma-cli`.
 
-- karma init
+- Initialiser le fichier de configuration `karma init`.
 
-- Modifier karma.conf.js
+- Modifier `karma.conf.js` pour ajouter les éléments suivants.
 
 ```javascript
 plugins: [
@@ -263,7 +257,7 @@ webpack: {
 }
 ```
 
-- Ajouter un point d'entré pour les tests : `src/index.spec.js`
+- Ajouter un point d'entré pour les tests : `src/index.spec.js`. Il prend en charge les polyfills, initialise l'environnement Angular 2 pour les tests et charge tous les modules de l'application (dans `/app`).
 
 ```javascript
 Error.stackTraceLimit = Infinity;
@@ -289,9 +283,9 @@ const testingBrowser = require('@angular/platform-browser-dynamic/testing');
 testing.TestBed.initTestEnvironment(testingBrowser.BrowserDynamicTestingModule, testingBrowser.platformBrowserDynamicTesting());
 ```
 
-- Extraire le composant `MainComponent` dans un fichier `src/app/main.ts`
+- Extraire le composant `MainComponent` dans un fichier `src/app/main.ts`.
 
-- Créer le test de `MainComponent` dans un fichier `src/app/main.spec.ts`
+- Créer le test de `MainComponent` dans un fichier `src/app/main.spec.ts`.
 
 ```typescript
 import {Component} from '@angular/core';
@@ -315,6 +309,6 @@ describe('Main Component', () => {
 });
 ```
 
-- Tester avec la commande `karma start`
+- Tester avec la commande `karma start`.
 
-- Configurer dans les scripts npm `"test": "karma start --single-run"`
+- Configurer dans les scripts npm `"test": "karma start --single-run"`.
