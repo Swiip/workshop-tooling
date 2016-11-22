@@ -96,7 +96,7 @@ module.exports = {
 
 - Enregistrer la commande de lancement de Webpack dans les scripts npm : `"webpack": "webpack --config 'webpack.config.js'"`
 
-- Lancer la commande `npm run webpack`, Webpack devrait créer le bundle. Puis lancer le serveur avec `npm run serve` pour lancer le serveur, le bundle devrait être chargé et Hello World s'afficher dans la console du navigateur
+- Lancer la commande `npm run webpack`, Webpack devrait créer le bundle. Puis lancer le serveur avec `npm run browsersync` pour lancer le serveur, le bundle devrait être chargé et Hello World s'afficher dans la console du navigateur
 
 - Je vous invite à ouvrir le bundle pour voir à quoi ça ressemble. C'est un des rares cas dans lequel il est assez petit pour être lisible.
 
@@ -134,7 +134,15 @@ console.log(hello);
 
 - Nous allons maintenant brancher TypeScript sous forme de "loader" Webpack. Pour cela, il faut commencer par installer le package `npm install --save-dev ts-loader`.
 
-- Pour la configuration Webpack, il faut commencer par apprendre à Webpack que les fichiers `.ts` peuvent être considérés comme des modules : `resolve: ['.js', '.ts']`. Il faut ensuite configurer le loader TypeScript. Comme dans la plupart des cas, on précise de l'utiliser pour les fichiers avec une extension `.ts` mais on exclue le répertoire `node_modules` dans lequel on ne veut jamais que le compilateur s'active
+- Pour la configuration Webpack, il faut commencer par apprendre à Webpack que les fichiers `.ts` peuvent être considérés comme des modules.
+
+```javascript
+resolve: {
+  extensions: ['.js', '.ts']
+}
+```
+
+- Il faut ensuite configurer le loader TypeScript. Comme dans la plupart des cas, on précise de l'utiliser pour les fichiers avec une extension `.ts` mais on exclue le répertoire `node_modules` dans lequel on ne veut jamais que le compilateur s'active
 
 ```javascript
 module: {
